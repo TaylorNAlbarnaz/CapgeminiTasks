@@ -21,7 +21,7 @@ import util.ConnectionFactory;
 public class TaskController {
     /**
      * Adds a new task to the database
-     * @param task 
+     * @param task The task that will be added
      */
     public void save(Task task) {
         String sql = "INSERT INTO tasks ("
@@ -98,7 +98,7 @@ public class TaskController {
     }
     
     /**
-     * Removes a task by it's id
+     * Removes the task with the specified id
      * @param taskId The id of the task that will be removed
      * @throws SQLException 
      */
@@ -142,7 +142,7 @@ public class TaskController {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idProject);
             
-            // Gets the results from the query and adds them to the task list
+            // Get the results from the query and adds them to the task list
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Task task = new Task();
