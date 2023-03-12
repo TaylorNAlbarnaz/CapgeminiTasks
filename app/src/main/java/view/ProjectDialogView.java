@@ -2,17 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
+package view;
 /**
  *
  * @author LightVelox
  */
-public class ProjectDialog extends javax.swing.JDialog {
+
+public class ProjectDialogView extends javax.swing.JDialog {
 
     /**
      * Creates new form ProjectDialog
      */
-    public ProjectDialog(java.awt.Frame parent, boolean modal) {
+    public ProjectDialogView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -26,22 +27,16 @@ public class ProjectDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollBar1 = new javax.swing.JScrollBar();
         Header = new javax.swing.JPanel();
         HeaderTitle = new javax.swing.JLabel();
         Body = new javax.swing.JPanel();
         Name = new javax.swing.JLabel();
         NameField = new javax.swing.JTextField();
-        Deadline = new javax.swing.JLabel();
-        DeadlineField = new javax.swing.JTextField();
         Description = new javax.swing.JLabel();
-        DescriptionField = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        Notes = new javax.swing.JLabel();
-        NotesScroll = new javax.swing.JScrollPane();
-        NotesField = new javax.swing.JTextArea();
+        DescriptionScroll = new javax.swing.JScrollPane();
+        DescriptionField = new javax.swing.JTextArea();
         Save = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -51,7 +46,7 @@ public class ProjectDialog extends javax.swing.JDialog {
         HeaderTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         HeaderTitle.setForeground(new java.awt.Color(255, 255, 255));
         HeaderTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        HeaderTitle.setText("New Task");
+        HeaderTitle.setText("New Project");
 
         javax.swing.GroupLayout HeaderLayout = new javax.swing.GroupLayout(Header);
         Header.setLayout(HeaderLayout);
@@ -74,54 +69,37 @@ public class ProjectDialog extends javax.swing.JDialog {
 
         Name.setText("Name");
 
-        Deadline.setText("Deadline");
-
         Description.setText("Description");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        DescriptionField.setViewportView(jTextArea1);
-
-        Notes.setText("Notes");
-
-        NotesField.setColumns(20);
-        NotesField.setRows(5);
-        NotesScroll.setViewportView(NotesField);
+        DescriptionField.setColumns(20);
+        DescriptionField.setRows(5);
+        DescriptionScroll.setViewportView(DescriptionField);
 
         Save.setText("Save");
 
-        jButton2.setText("Cancel");
+        Cancel.setText("Cancel");
 
         javax.swing.GroupLayout BodyLayout = new javax.swing.GroupLayout(Body);
         Body.setLayout(BodyLayout);
         BodyLayout.setHorizontalGroup(
             BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BodyLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BodyLayout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(Save)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addGap(123, 123, 123))
-                    .addGroup(BodyLayout.createSequentialGroup()
+                .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(DescriptionScroll)
+                    .addComponent(NameField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BodyLayout.createSequentialGroup()
                         .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Description)
-                            .addComponent(Notes))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyLayout.createSequentialGroup()
-                        .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(NotesScroll, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescriptionField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BodyLayout.createSequentialGroup()
-                                .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Name)
-                                    .addComponent(Deadline))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(NameField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DeadlineField, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap())))
+                            .addComponent(Name)
+                            .addComponent(Description))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(BodyLayout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(Save)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Cancel)
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         BodyLayout.setVerticalGroup(
             BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,22 +109,14 @@ public class ProjectDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Deadline)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DeadlineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Description)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DescriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Notes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NotesScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DescriptionScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Save)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Cancel))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -161,7 +131,7 @@ public class ProjectDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Body, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,20 +154,20 @@ public class ProjectDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjectDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectDialogView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjectDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectDialogView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjectDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectDialogView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjectDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProjectDialogView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ProjectDialog dialog = new ProjectDialog(new javax.swing.JFrame(), true);
+                ProjectDialogView dialog = new ProjectDialogView(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -211,20 +181,14 @@ public class ProjectDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Body;
-    private javax.swing.JLabel Deadline;
-    private javax.swing.JTextField DeadlineField;
+    private javax.swing.JButton Cancel;
     private javax.swing.JLabel Description;
-    private javax.swing.JScrollPane DescriptionField;
+    private javax.swing.JTextArea DescriptionField;
+    private javax.swing.JScrollPane DescriptionScroll;
     private javax.swing.JPanel Header;
     private javax.swing.JLabel HeaderTitle;
     private javax.swing.JLabel Name;
     private javax.swing.JTextField NameField;
-    private javax.swing.JLabel Notes;
-    private javax.swing.JTextArea NotesField;
-    private javax.swing.JScrollPane NotesScroll;
     private javax.swing.JButton Save;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

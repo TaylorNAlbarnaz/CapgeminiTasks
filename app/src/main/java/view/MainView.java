@@ -1,25 +1,22 @@
-
-
-
-
+package view;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
     import java.awt.Color;
     import java.awt.Font;
+    import com.formdev.flatlaf.*;
 
 /**
  *
  * @author LightVelox
  */
-public class Main extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
      */
-    public Main() {
+    public MainView() {
         initComponents();
         decorateTableTasks();
     }
@@ -35,54 +32,59 @@ public class Main extends javax.swing.JFrame {
 
         Header = new javax.swing.JPanel();
         HeaderTitle = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        HeaderText = new javax.swing.JLabel();
         Projects = new javax.swing.JPanel();
         ProjectsScroll = new javax.swing.JScrollPane();
         ProjectList = new javax.swing.JList<>();
+        NewProjectButton = new javax.swing.JButton();
         Tasks = new javax.swing.JPanel();
         TasksHeader = new javax.swing.JPanel();
         ProjectTitle = new javax.swing.JLabel();
         TasksBody = new javax.swing.JPanel();
         TasksScroll = new javax.swing.JScrollPane();
         TasksTable = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        NewTaskButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 400));
 
         HeaderTitle.setBackground(new java.awt.Color(0, 204, 0));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Tasks");
+        HeaderText.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        HeaderText.setForeground(new java.awt.Color(255, 255, 255));
+        HeaderText.setText("Task Manager");
 
         javax.swing.GroupLayout HeaderTitleLayout = new javax.swing.GroupLayout(HeaderTitle);
         HeaderTitle.setLayout(HeaderTitleLayout);
         HeaderTitleLayout.setHorizontalGroup(
             HeaderTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HeaderTitleLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabel1)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(HeaderText)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         HeaderTitleLayout.setVerticalGroup(
             HeaderTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HeaderTitleLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HeaderTitleLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(HeaderText)
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout HeaderLayout = new javax.swing.GroupLayout(Header);
         Header.setLayout(HeaderLayout);
         HeaderLayout.setHorizontalGroup(
             HeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HeaderLayout.createSequentialGroup()
-                .addComponent(HeaderTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(HeaderTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         HeaderLayout.setVerticalGroup(
             HeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HeaderTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(HeaderLayout.createSequentialGroup()
+                .addComponent(HeaderTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
 
         Projects.setBackground(new java.awt.Color(255, 255, 255));
@@ -101,15 +103,26 @@ public class Main extends javax.swing.JFrame {
         ProjectList.setSelectionBackground(new java.awt.Color(0, 204, 51));
         ProjectsScroll.setViewportView(ProjectList);
 
+        NewProjectButton.setText("New Project");
+        NewProjectButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NewProjectButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout ProjectsLayout = new javax.swing.GroupLayout(Projects);
         Projects.setLayout(ProjectsLayout);
         ProjectsLayout.setHorizontalGroup(
             ProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ProjectsScroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+            .addComponent(ProjectsScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+            .addComponent(NewProjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ProjectsLayout.setVerticalGroup(
             ProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ProjectsScroll)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProjectsLayout.createSequentialGroup()
+                .addComponent(NewProjectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ProjectsScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         Tasks.setBackground(new java.awt.Color(255, 255, 255));
@@ -129,7 +142,7 @@ public class Main extends javax.swing.JFrame {
             TasksHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TasksHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ProjectTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ProjectTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TasksHeaderLayout.setVerticalGroup(
@@ -137,7 +150,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TasksHeaderLayout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(ProjectTitle)
-                .addGap(22, 22, 22))
+                .addGap(35, 35, 35))
         );
 
         TasksBody.setBackground(new java.awt.Color(255, 255, 255));
@@ -173,20 +186,35 @@ public class Main extends javax.swing.JFrame {
         TasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TasksTable.setShowGrid(true);
-        TasksTable.setShowHorizontalLines(true);
         TasksScroll.setViewportView(TasksTable);
+
+        NewTaskButton.setText("New Task");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(NewTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(NewTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout TasksBodyLayout = new javax.swing.GroupLayout(TasksBody);
         TasksBody.setLayout(TasksBodyLayout);
         TasksBodyLayout.setHorizontalGroup(
             TasksBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(TasksScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         TasksBodyLayout.setVerticalGroup(
             TasksBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TasksBodyLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(TasksScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(TasksScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout TasksLayout = new javax.swing.GroupLayout(Tasks);
@@ -199,8 +227,8 @@ public class Main extends javax.swing.JFrame {
         TasksLayout.setVerticalGroup(
             TasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TasksLayout.createSequentialGroup()
-                .addComponent(TasksHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(TasksHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(TasksBody, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -226,14 +254,20 @@ public class Main extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(Tasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Projects, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(Projects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void NewProjectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewProjectButtonMouseClicked
+        // TODO add your handling code here:
+        ProjectDialogView projectDialogView = new ProjectDialogView(this, rootPaneCheckingEnabled);
+        projectDialogView.setVisible(true);
+    }//GEN-LAST:event_NewProjectButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -244,35 +278,34 @@ public class Main extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        FlatLightLaf.setup();
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Java swing".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    javax.swing.UIManager.setLookAndFeel(new FlatLightLaf());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new MainView().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Header;
+    private javax.swing.JLabel HeaderText;
     private javax.swing.JPanel HeaderTitle;
+    private javax.swing.JButton NewProjectButton;
+    private javax.swing.JButton NewTaskButton;
     private javax.swing.JList<String> ProjectList;
     private javax.swing.JLabel ProjectTitle;
     private javax.swing.JPanel Projects;
@@ -282,7 +315,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel TasksHeader;
     private javax.swing.JScrollPane TasksScroll;
     private javax.swing.JTable TasksTable;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
     public void decorateTableTasks() {
