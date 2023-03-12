@@ -13,6 +13,8 @@ package view;
     import java.util.List;
     import javax.swing.DefaultListModel;
     import model.Project;
+import model.Task;
+import util.TaskTableModel;
 
 /**
  *
@@ -23,7 +25,8 @@ public class MainView extends javax.swing.JFrame {
     ProjectController projectController;
     TaskController taskController;
     
-    DefaultListModel projectModel; 
+    DefaultListModel projectsModel; 
+    TaskTableModel tasksModel;
     
     public MainView() {
         initComponents();
@@ -288,9 +291,13 @@ public class MainView extends javax.swing.JFrame {
 
     private void NewTaskButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewTaskButtonMouseClicked
         TaskDialogView taskDialogView = new TaskDialogView(this, rootPaneCheckingEnabled);
-        //taskDialogView.setProject(project);
-        
         taskDialogView.setVisible(true);
+        
+        taskDialogView.addWindowFocusListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                loadTasksIntoModel(1);
+            }
+        });
     }//GEN-LAST:event_NewTaskButtonMouseClicked
 
     /**
@@ -357,8 +364,11 @@ public class MainView extends javax.swing.JFrame {
     }
     
     public void initComponentModels() {
-        projectModel = new DefaultListModel();
+        projectsModel = new DefaultListModel();
         loadProjectsIntoModel();
+        
+        tasksModel = new TaskTableModel();
+        loadTasksIntoModel(1);
     }
     
     /**
@@ -368,11 +378,18 @@ public class MainView extends javax.swing.JFrame {
         List<Project> projects = projectController.getAll();
         
         // Add the projects to the ProjectModel
-        projectModel.clear();
+        projectsModel.clear();
         for (Project project : projects) {
-            projectModel.addElement(project.getName());
+            projectsModel.addElement(project.getName());
         }
         
-        ProjectList.setModel(projectModel);
+        ProjectList.setModel(projectsModel);
+    }
+    
+    public void loadTasksIntoModel(int idProject) {
+        List<Task> tasks = taskController.getAll(idProject);
+        tasksModel.setTasks(tasks);
+        
+        TasksTable.setModel(tasksModel);
     }
 }
