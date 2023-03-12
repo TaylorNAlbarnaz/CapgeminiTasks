@@ -3,18 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package view;
+
+import controller.TaskController;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import model.Project;
+import model.Task;
+
 /**
  *
  * @author LightVelox
  */
 public class TaskDialogView extends javax.swing.JDialog {
 
-    /**
-     * Creates new form ProjectDialog
-     */
+    TaskController controller;
+    Project project;
+    
     public TaskDialogView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        controller = new TaskController();
     }
 
     /**
@@ -33,15 +43,15 @@ public class TaskDialogView extends javax.swing.JDialog {
         Name = new javax.swing.JLabel();
         NameField = new javax.swing.JTextField();
         Deadline = new javax.swing.JLabel();
-        DeadlineField = new javax.swing.JTextField();
+        DeadlineField = new javax.swing.JFormattedTextField();
         Description = new javax.swing.JLabel();
-        DescriptionField = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        DescriptionArea = new javax.swing.JScrollPane();
+        DescriptionField = new javax.swing.JTextArea();
         Notes = new javax.swing.JLabel();
         NotesScroll = new javax.swing.JScrollPane();
         NotesField = new javax.swing.JTextArea();
         Save = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -76,11 +86,13 @@ public class TaskDialogView extends javax.swing.JDialog {
 
         Deadline.setText("Deadline");
 
+        DeadlineField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
         Description.setText("Description");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        DescriptionField.setViewportView(jTextArea1);
+        DescriptionField.setColumns(20);
+        DescriptionField.setRows(5);
+        DescriptionArea.setViewportView(DescriptionField);
 
         Notes.setText("Notes");
 
@@ -89,8 +101,18 @@ public class TaskDialogView extends javax.swing.JDialog {
         NotesScroll.setViewportView(NotesField);
 
         Save.setText("Save");
+        Save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SaveMouseClicked(evt);
+            }
+        });
 
-        jButton2.setText("Cancel");
+        Cancel.setText("Cancel");
+        Cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CancelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyLayout = new javax.swing.GroupLayout(Body);
         Body.setLayout(BodyLayout);
@@ -103,24 +125,21 @@ public class TaskDialogView extends javax.swing.JDialog {
                         .addGap(121, 121, 121)
                         .addComponent(Save)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(Cancel)
                         .addGap(123, 123, 123))
                     .addGroup(BodyLayout.createSequentialGroup()
                         .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Description)
-                            .addComponent(Notes))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyLayout.createSequentialGroup()
-                        .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(NotesScroll, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescriptionField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BodyLayout.createSequentialGroup()
+                            .addComponent(NotesScroll)
+                            .addComponent(DescriptionArea)
+                            .addGroup(BodyLayout.createSequentialGroup()
                                 .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Name)
                                     .addComponent(Deadline))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(NameField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DeadlineField, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(NameField)
+                            .addComponent(Description)
+                            .addComponent(Notes)
+                            .addComponent(DeadlineField))
                         .addContainerGap())))
         );
         BodyLayout.setVerticalGroup(
@@ -137,7 +156,7 @@ public class TaskDialogView extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Description)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DescriptionField, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DescriptionArea, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Notes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -145,7 +164,7 @@ public class TaskDialogView extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Save)
-                    .addComponent(jButton2))
+                    .addComponent(Cancel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -166,6 +185,32 @@ public class TaskDialogView extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
+        try {
+            Task task = new Task();
+            task.setIdProject(1);
+            task.setName(NameField.getText());
+            task.setDescription(DescriptionField.getText());
+            task.setNotes(NotesField.getText());
+            task.setCompleted(false);
+            
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date deadline = dateFormat.parse(DeadlineField.getText());
+            task.setDeadline(deadline);
+            
+            controller.save(task);
+            JOptionPane.showMessageDialog(rootPane, "Task succesfully saved!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_SaveMouseClicked
+
+    private void CancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_CancelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -211,10 +256,12 @@ public class TaskDialogView extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Body;
+    private javax.swing.JButton Cancel;
     private javax.swing.JLabel Deadline;
-    private javax.swing.JTextField DeadlineField;
+    private javax.swing.JFormattedTextField DeadlineField;
     private javax.swing.JLabel Description;
-    private javax.swing.JScrollPane DescriptionField;
+    private javax.swing.JScrollPane DescriptionArea;
+    private javax.swing.JTextArea DescriptionField;
     private javax.swing.JPanel Header;
     private javax.swing.JLabel HeaderTitle;
     private javax.swing.JLabel Name;
@@ -223,8 +270,10 @@ public class TaskDialogView extends javax.swing.JDialog {
     private javax.swing.JTextArea NotesField;
     private javax.swing.JScrollPane NotesScroll;
     private javax.swing.JButton Save;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
 }

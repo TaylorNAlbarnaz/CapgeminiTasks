@@ -6,6 +6,13 @@ package view;
     import java.awt.Color;
     import java.awt.Font;
     import com.formdev.flatlaf.*;
+    import controller.ProjectController;
+    import controller.TaskController;
+    import java.awt.event.WindowAdapter;
+    import java.awt.event.WindowEvent;
+    import java.util.List;
+    import javax.swing.DefaultListModel;
+    import model.Project;
 
 /**
  *
@@ -13,12 +20,17 @@ package view;
  */
 public class MainView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
+    ProjectController projectController;
+    TaskController taskController;
+    
+    DefaultListModel projectModel; 
+    
     public MainView() {
         initComponents();
         decorateTableTasks();
+        
+        initDataControllers();
+        initComponentModels();
     }
 
     /**
@@ -93,11 +105,6 @@ public class MainView extends javax.swing.JFrame {
         ProjectsScroll.setBorder(null);
 
         ProjectList.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        ProjectList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         ProjectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         ProjectList.setFixedCellHeight(30);
         ProjectList.setSelectionBackground(new java.awt.Color(0, 204, 51));
@@ -189,6 +196,11 @@ public class MainView extends javax.swing.JFrame {
         TasksScroll.setViewportView(TasksTable);
 
         NewTaskButton.setText("New Task");
+        NewTaskButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NewTaskButtonMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -264,10 +276,22 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NewProjectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewProjectButtonMouseClicked
-        // TODO add your handling code here:
         ProjectDialogView projectDialogView = new ProjectDialogView(this, rootPaneCheckingEnabled);
         projectDialogView.setVisible(true);
+        
+        projectDialogView.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                loadProjectsIntoModel();
+            }
+        });
     }//GEN-LAST:event_NewProjectButtonMouseClicked
+
+    private void NewTaskButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewTaskButtonMouseClicked
+        TaskDialogView taskDialogView = new TaskDialogView(this, rootPaneCheckingEnabled);
+        //taskDialogView.setProject(project);
+        
+        taskDialogView.setVisible(true);
+    }//GEN-LAST:event_NewTaskButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -325,5 +349,30 @@ public class MainView extends javax.swing.JFrame {
         TasksTable.getTableHeader().setForeground(new Color(255, 255, 255));
         
         TasksTable.setAutoCreateRowSorter(true);
+    }
+    
+    public void initDataControllers() {
+        projectController = new ProjectController();
+        taskController = new TaskController();
+    }
+    
+    public void initComponentModels() {
+        projectModel = new DefaultListModel();
+        loadProjectsIntoModel();
+    }
+    
+    /**
+     * Loads all projects from the database and put them into the ProjectModel
+     */
+    public void loadProjectsIntoModel() {
+        List<Project> projects = projectController.getAll();
+        
+        // Add the projects to the ProjectModel
+        projectModel.clear();
+        for (Project project : projects) {
+            projectModel.addElement(project.getName());
+        }
+        
+        ProjectList.setModel(projectModel);
     }
 }
