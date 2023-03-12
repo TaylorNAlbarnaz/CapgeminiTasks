@@ -23,7 +23,7 @@ public class ProjectController {
      * @param project The project that will be added
      */
     public void save(Project project) {
-        String sql = "INSERT INTO project ("
+        String sql = "INSERT INTO projects ("
                 + "name, "
                 + "description, "
                 + "createdAt, "

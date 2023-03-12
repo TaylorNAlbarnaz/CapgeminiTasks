@@ -3,12 +3,27 @@
  */
 package main;
 
+import controller.ProjectController;
 import java.sql.Connection;
+import java.util.List;
+import model.Project;
 import util.ConnectionFactory;
 
 public class App {
     public static void main(String[] args) {
         Connection connection = ConnectionFactory.getConnection();
+        
+        ProjectController controller = new ProjectController();
+        List<Project> projects = controller.getAll();
+        
+        if (projects.isEmpty()) {
+            System.out.println("No projects in the database");
+        } else {
+            System.out.println("Projects: " + projects.size());
+            for (Project project : projects) {
+                System.out.println("- " + project.getName());
+            }
+        }
         
         ConnectionFactory.closeConnection(connection);
     }

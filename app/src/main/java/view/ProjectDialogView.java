@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package view;
+
+import controller.ProjectController;
+import javax.swing.JOptionPane;
+import model.Project;
+
 /**
  *
  * @author LightVelox
@@ -10,12 +15,13 @@ package view;
 
 public class ProjectDialogView extends javax.swing.JDialog {
 
-    /**
-     * Creates new form ProjectDialog
-     */
+    ProjectController controller;
+    
     public ProjectDialogView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        controller = new ProjectController();
     }
 
     /**
@@ -76,8 +82,18 @@ public class ProjectDialogView extends javax.swing.JDialog {
         DescriptionScroll.setViewportView(DescriptionField);
 
         Save.setText("Save");
+        Save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SaveMouseClicked(evt);
+            }
+        });
 
         Cancel.setText("Cancel");
+        Cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CancelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout BodyLayout = new javax.swing.GroupLayout(Body);
         Body.setLayout(BodyLayout);
@@ -137,6 +153,25 @@ public class ProjectDialogView extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
+        try {
+        Project project = new Project();
+        project.setName(NameField.getText());
+        project.setDescription(DescriptionField.getText());
+        
+        controller.save(project);
+        JOptionPane.showMessageDialog(rootPane, "Project succesfully saved!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_SaveMouseClicked
+
+    private void CancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_CancelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -148,7 +183,7 @@ public class ProjectDialogView extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Java swing".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
