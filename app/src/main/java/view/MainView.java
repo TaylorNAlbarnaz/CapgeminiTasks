@@ -28,6 +28,8 @@ public class MainView extends javax.swing.JFrame {
     DefaultListModel projectsModel; 
     TaskTableModel tasksModel;
     
+    Project currentProject;
+    
     public MainView() {
         initComponents();
         decorateTableTasks();
@@ -111,6 +113,11 @@ public class MainView extends javax.swing.JFrame {
         ProjectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         ProjectList.setFixedCellHeight(30);
         ProjectList.setSelectionBackground(new java.awt.Color(0, 204, 51));
+        ProjectList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProjectListMouseClicked(evt);
+            }
+        });
         ProjectsScroll.setViewportView(ProjectList);
 
         NewProjectButton.setText("New Project");
@@ -196,6 +203,11 @@ public class MainView extends javax.swing.JFrame {
         TasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TasksTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TasksTable.setShowGrid(true);
+        TasksTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TasksTableMouseClicked(evt);
+            }
+        });
         TasksScroll.setViewportView(TasksTable);
 
         NewTaskButton.setText("New Task");
@@ -290,15 +302,44 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_NewProjectButtonMouseClicked
 
     private void NewTaskButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewTaskButtonMouseClicked
+        if (currentProject == null) {
+            return;
+        }
+        
         TaskDialogView taskDialogView = new TaskDialogView(this, rootPaneCheckingEnabled);
+        taskDialogView.setProject(currentProject);
         taskDialogView.setVisible(true);
         
         taskDialogView.addWindowFocusListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
-                loadTasksIntoModel(1);
+                loadTasksIntoModel(currentProject.getId());
             }
         });
     }//GEN-LAST:event_NewTaskButtonMouseClicked
+
+    private void TasksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TasksTableMouseClicked
+        int rowIndex = TasksTable.rowAtPoint(evt.getPoint());
+        int columnIndex = TasksTable.columnAtPoint(evt.getPoint());
+        
+        switch (columnIndex) {
+            case 0:
+                Task task = tasksModel.getTasks().get(rowIndex);
+                taskController.update(task);
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
+    }//GEN-LAST:event_TasksTableMouseClicked
+
+    private void ProjectListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectListMouseClicked
+        int projectIndex = ProjectList.getSelectedIndex();
+        Project project = (Project)projectsModel.get(projectIndex);
+        currentProject = project;
+        
+        loadTasksIntoModel(currentProject.getId());
+    }//GEN-LAST:event_ProjectListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -368,7 +409,7 @@ public class MainView extends javax.swing.JFrame {
         loadProjectsIntoModel();
         
         tasksModel = new TaskTableModel();
-        loadTasksIntoModel(1);
+        loadTasksIntoModel(currentProject.getId());
     }
     
     /**
@@ -380,7 +421,11 @@ public class MainView extends javax.swing.JFrame {
         // Add the projects to the ProjectModel
         projectsModel.clear();
         for (Project project : projects) {
-            projectsModel.addElement(project.getName());
+            projectsModel.addElement(project);
+        }
+        
+        if (currentProject == null) {
+            currentProject = projects.get(0);
         }
         
         ProjectList.setModel(projectsModel);
@@ -390,6 +435,9 @@ public class MainView extends javax.swing.JFrame {
         List<Task> tasks = taskController.getAll(idProject);
         tasksModel.setTasks(tasks);
         
+        TasksTable.setVisible(!tasks.isEmpty());
+        
         TasksTable.setModel(tasksModel);
+        tasksModel.fireTableDataChanged();
     }
 }

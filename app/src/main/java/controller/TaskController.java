@@ -68,7 +68,7 @@ public class TaskController {
                 + "name = ?, "
                 + "description = ?, "
                 + "notes = ?, "
-                + "completed = ?"
+                + "completed = ?, "
                 + "deadline = ?, "
                 + "createdAt = ?, "
                 + "updatedAt = ? "

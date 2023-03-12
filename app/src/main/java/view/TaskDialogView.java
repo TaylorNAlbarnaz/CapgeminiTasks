@@ -189,7 +189,7 @@ public class TaskDialogView extends javax.swing.JDialog {
     private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
         try {
             Task task = new Task();
-            task.setIdProject(1);
+            task.setIdProject(project.getId());
             task.setName(NameField.getText());
             task.setDescription(DescriptionField.getText());
             task.setNotes(NotesField.getText());
