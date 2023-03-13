@@ -102,7 +102,7 @@ public class TaskController {
      * @param taskId The id of the task that will be removed
      * @throws SQLException 
      */
-    public void removeById(int taskId) throws SQLException {
+    public void removeById(int taskId) {
         String sql = "DELETE FROM tasks WHERE id = ?";
         
         Connection connection = null;

@@ -155,11 +155,16 @@ public class ProjectDialogView extends javax.swing.JDialog {
 
     private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
         try {
-        Project project = new Project();
-        project.setName(NameField.getText());
-        project.setDescription(DescriptionField.getText());
-        
-        controller.save(project);
+            if (NameField.getText().length() < 2) {
+                JOptionPane.showMessageDialog(rootPane, "Can't create a project without name!");
+                return;
+            }
+            
+            Project project = new Project();
+            project.setName(NameField.getText());
+            project.setDescription(DescriptionField.getText());
+
+            controller.save(project);
         JOptionPane.showMessageDialog(rootPane, "Project succesfully saved!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());

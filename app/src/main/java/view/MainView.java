@@ -14,6 +14,8 @@ package view;
     import javax.swing.DefaultListModel;
     import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineColumnCellRender;
 import util.TaskTableModel;
 
 /**
@@ -31,11 +33,11 @@ public class MainView extends javax.swing.JFrame {
     Project currentProject;
     
     public MainView() {
-        initComponents();
-        decorateTableTasks();
-        
+        initComponents();        
         initDataControllers();
         initComponentModels();
+        
+        decorateTableTasks();
     }
 
     /**
@@ -116,6 +118,9 @@ public class MainView extends javax.swing.JFrame {
         ProjectList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ProjectListMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                ProjectListMouseReleased(evt);
             }
         });
         ProjectsScroll.setViewportView(ProjectList);
@@ -310,8 +315,9 @@ public class MainView extends javax.swing.JFrame {
         taskDialogView.setProject(currentProject);
         taskDialogView.setVisible(true);
         
-        taskDialogView.addWindowFocusListener(new WindowAdapter() {
+        taskDialogView.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
+                System.out.println(currentProject.getId());
                 loadTasksIntoModel(currentProject.getId());
             }
         });
@@ -320,15 +326,24 @@ public class MainView extends javax.swing.JFrame {
     private void TasksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TasksTableMouseClicked
         int rowIndex = TasksTable.rowAtPoint(evt.getPoint());
         int columnIndex = TasksTable.columnAtPoint(evt.getPoint());
+        Task task = tasksModel.getTasks().get(rowIndex);
         
         switch (columnIndex) {
             case 0:
-                Task task = tasksModel.getTasks().get(rowIndex);
                 taskController.update(task);
                 break;
             case 4:
+                TaskDialogView taskDialogView = new TaskDialogView(this, rootPaneCheckingEnabled);
+                taskDialogView.setProject(currentProject);
+                taskDialogView.setEditing(true);
+                taskDialogView.setTask(task);
+                taskDialogView.setVisible(true);
                 break;
             case 5:
+                taskController.removeById(task.getId());
+                tasksModel.getTasks().remove(task);
+                
+                loadTasksIntoModel(currentProject.getId());
                 break;
         }
     }//GEN-LAST:event_TasksTableMouseClicked
@@ -340,6 +355,14 @@ public class MainView extends javax.swing.JFrame {
         
         loadTasksIntoModel(currentProject.getId());
     }//GEN-LAST:event_ProjectListMouseClicked
+
+    private void ProjectListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectListMouseReleased
+        int projectIndex = ProjectList.getSelectedIndex();
+        Project project = (Project)projectsModel.get(projectIndex);
+        currentProject = project;
+        
+        loadTasksIntoModel(currentProject.getId());
+    }//GEN-LAST:event_ProjectListMouseReleased
 
     /**
      * @param args the command line arguments
@@ -396,7 +419,14 @@ public class MainView extends javax.swing.JFrame {
         TasksTable.getTableHeader().setBackground(new Color(0, 153, 102));
         TasksTable.getTableHeader().setForeground(new Color(255, 255, 255));
         
-        TasksTable.setAutoCreateRowSorter(true);
+        TasksTable.getColumnModel().getColumn(3)
+                .setCellRenderer(new DeadlineColumnCellRender());
+        
+        TasksTable.getColumnModel().getColumn(4)
+                .setCellRenderer(new ButtonColumnCellRenderer("edit"));
+        
+        TasksTable.getColumnModel().getColumn(5)
+                .setCellRenderer(new ButtonColumnCellRenderer("delete"));
     }
     
     public void initDataControllers() {
@@ -424,11 +454,11 @@ public class MainView extends javax.swing.JFrame {
             projectsModel.addElement(project);
         }
         
+        ProjectList.setModel(projectsModel);
         if (currentProject == null) {
             currentProject = projects.get(0);
+            ProjectList.setSelectedIndex(0);
         }
-        
-        ProjectList.setModel(projectsModel);
     }
     
     public void loadTasksIntoModel(int idProject) {

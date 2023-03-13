@@ -19,6 +19,8 @@ public class TaskDialogView extends javax.swing.JDialog {
 
     TaskController controller;
     Project project;
+    boolean editing;
+    Task task;
     
     public TaskDialogView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -188,18 +190,40 @@ public class TaskDialogView extends javax.swing.JDialog {
 
     private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
         try {
-            Task task = new Task();
-            task.setIdProject(project.getId());
-            task.setName(NameField.getText());
-            task.setDescription(DescriptionField.getText());
-            task.setNotes(NotesField.getText());
-            task.setCompleted(false);
+            if (NameField.getText().length() < 2) {
+                JOptionPane.showMessageDialog(rootPane, "Can't create a task without name!");
+                return;
+            }
             
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date deadline = dateFormat.parse(DeadlineField.getText());
-            task.setDeadline(deadline);
+            if (DeadlineField.getText().length() < 8) {
+                JOptionPane.showMessageDialog(rootPane, "Can't create a task with invalid deadline!");
+                return;
+            }
             
-            controller.save(task);
+            if (editing) {
+                task.setName(NameField.getText());
+                task.setDescription(DescriptionField.getText());
+                task.setNotes(NotesField.getText());
+                
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date deadline = dateFormat.parse(DeadlineField.getText());
+                task.setDeadline(deadline);
+                
+                controller.update(task);
+            } else {
+                task = new Task();
+                task.setIdProject(project.getId());
+                task.setName(NameField.getText());
+                task.setDescription(DescriptionField.getText());
+                task.setNotes(NotesField.getText());
+                task.setCompleted(false);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date deadline = dateFormat.parse(DeadlineField.getText());
+                task.setDeadline(deadline);
+
+                controller.save(task);
+            }
             JOptionPane.showMessageDialog(rootPane, "Task succesfully saved!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -275,5 +299,20 @@ public class TaskDialogView extends javax.swing.JDialog {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public void setEditing(boolean editing) {
+        this.editing = editing;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        NameField.setText(task.getName());
+        DescriptionField.setText(task.getDescription());
+        DeadlineField.setText(dateFormat.format(task.getDeadline().getTime()));
+        NotesField.setText(task.getNotes());
     }
 }
