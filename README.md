@@ -4,7 +4,7 @@
 
 # Tasks
 
-**Tasks** é um projeto de um software de gerenciamento de tarefas baseado na interface do curso Start da Capgemini com uma interface completa e conexão com banco de dados, feita utilizando **Java**, **Swing** e **MySQL**.
+**Tasks** é um projeto de um software de gerenciamento de tarefas feito durante a trilha Start da Capgemini, com uma interface completa desenvolvida por mim e conexão com banco de dados, feita utilizando **Java**, **Swing** e **MySQL**.
 
 # Instalação
 Para instalar e executar o projeto é necessário uma IDE Java, recomendado Intellij ou NetBeans, além do Java SDK e o Xampp.
